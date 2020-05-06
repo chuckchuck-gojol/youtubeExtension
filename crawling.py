@@ -2,6 +2,8 @@ from selenium import webdriver as wd
 from bs4 import BeautifulSoup
 import time
 import argparse
+import json
+
 
 def getText(html_tag):
     return html_tag.replace('\n', '').replace('\t', '').replace(' ','')
@@ -24,7 +26,7 @@ def getJson(tag):
     json['user_comment_good_count'] = getText(user_comment_good_count)
 
     user_comment = tag.select('div.ytd-expander')[0]
-    json['user_comment'] = user_comment
+    json['user_comment'] = str(user_comment)
 
     # user_expander_comment = tag.select('div.ytd-comment-replies-renderer')
     # if not user_expander_comment:
@@ -71,3 +73,7 @@ for tag in youtube_tags:
     print("")
 
 print(result_list)
+
+
+with open("student_file.json", "w") as json_file:
+    json.dump(result_list, json_file)
